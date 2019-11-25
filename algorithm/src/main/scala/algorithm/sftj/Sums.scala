@@ -22,7 +22,6 @@
 package algorithm.sftj
 
 object Sums {
-
   /**
    * 递归求和
    * @param list 可迭代列表
@@ -32,5 +31,4 @@ object Sums {
     if (list.isEmpty) 0
     else list.head + recursiveSum(list.tail)
   }
-
 }

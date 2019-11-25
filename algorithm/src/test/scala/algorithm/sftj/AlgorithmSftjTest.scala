@@ -3,7 +3,6 @@ package algorithm.sftj
 import org.scalatest.{ MustMatchers, WordSpec }
 
 class AlgorithmSftjTest extends WordSpec with MustMatchers {
-
   "Sum" should {
     import algorithm.sftj.Sums._
     "recursive" in {
@@ -72,5 +71,4 @@ class AlgorithmSftjTest extends WordSpec with MustMatchers {
     println(results)
     results must not be empty
   }
-
 }

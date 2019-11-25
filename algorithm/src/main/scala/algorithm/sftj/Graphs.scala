@@ -26,7 +26,6 @@ import com.typesafe.scalalogging.StrictLogging
 import scala.collection.mutable
 
 object Graphs extends StrictLogging {
-
   /**
    * 广度优先搜索（非加权图中查找最短路径）
    * http://www.ituring.com.cn/book/1864  6.4节
@@ -35,10 +34,7 @@ object Graphs extends StrictLogging {
    * @param comparison 比较函数
    * @return 广度搜索 graph，每个节点调用 comparison 函数。comparison 函数节点为true时返回 Some(node)，否则返回 None
    */
-  def breadthFirstSearch[T](
-    graph: Map[T, Seq[T]],
-    start: T,
-    comparison: T => Boolean): Option[T] = {
+  def breadthFirstSearch[T](graph: Map[T, Seq[T]], start: T, comparison: T => Boolean): Option[T] = {
     val firstSearchs = graph.getOrElse(start, Vector.empty)
     val searchQueue = mutable.Queue[T](firstSearchs: _*)
     val searched = mutable.Set[T](firstSearchs: _*)
@@ -62,7 +58,7 @@ object Graphs extends StrictLogging {
               Some(pending)
             })
 
-        searchQueue.enqueue(pendings: _*)
+        searchQueue.enqueueAll(pendings)
         logger.debug(s"[$count] $person $searchQueue")
       }
     }
@@ -78,10 +74,7 @@ object Graphs extends StrictLogging {
    * @param end 终点节点
    * @return (最短路径的加权总值，最短路径)
    */
-  def dijkstraSearch[T](
-    graph: Map[T, Map[T, Int]],
-    start: T,
-    end: T): (Int, List[T]) = {
+  def dijkstraSearch[T](graph: Map[T, Map[T, Int]], start: T, end: T): (Int, List[T]) = {
     val processed = mutable.Set.empty[T]
 
     val startNeighbors = graph(start)
@@ -89,7 +82,9 @@ object Graphs extends StrictLogging {
     // start 节点到任一节点最短花费
     val costs = mutable.Map.empty[T, Int] ++
       startNeighbors ++
-      graph.keysIterator.filterNot(node => node == start || startNeighbors.contains(node)).map(node => node -> Int.MaxValue)
+      graph.keysIterator
+        .filterNot(node => node == start || startNeighbors.contains(node))
+        .map(node => node -> Int.MaxValue)
 
     // 最短花费的父节点映射
     val parents = mutable.Map.empty[T, Option[T]] ++ graph(start).keys.map(key => (key, Some(start)))
@@ -109,7 +104,7 @@ object Graphs extends StrictLogging {
       lowestCostNode
     }
 
-    var count = 0
+//    var count = 0
     var maybeNode = findLowestCostNode(costs)
     while (maybeNode.nonEmpty) {
       val node = maybeNode.get
@@ -136,5 +131,4 @@ object Graphs extends StrictLogging {
     }
     (costs(end), paths)
   }
-
 }

@@ -24,7 +24,6 @@ package algorithm.sftj
 import scala.annotation.tailrec
 
 object Searchs {
-
   /**
    * 泛型二分查找
    * http://www.ituring.com.cn/book/1864  1.2节
@@ -51,5 +50,4 @@ object Searchs {
     if (list.isEmpty) -1
     else _search(0, list.size - 1)
   }
-
 }

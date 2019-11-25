@@ -24,14 +24,13 @@ package algorithm.sftj
 import scala.collection.mutable
 
 object Sorts {
-
   /**
    * 快速排序
    * http://www.ituring.com.cn/book/1864  4.2节
    * @param list 要排序的列表
    * @return 按升序排序列表
    */
-  def genericQuicksort[T](list: IndexedSeq[T])(implicit ev1: T => Ordered[T]): Vector[T] = {
+  def genericQuicksort[T](list: scala.collection.Seq[T])(implicit ev1: T => Ordered[T]): Vector[T] = {
     if (list.size < 2) {
       list.toVector
     } else {
@@ -48,5 +47,4 @@ object Sorts {
       genericQuicksort(less) ++ pivots ++ genericQuicksort(greater)
     }
   }
-
 }

@@ -24,7 +24,6 @@ package algorithm.sftj
 import scala.collection.mutable
 
 object Greedys {
-
   /**
    * 贪婪算法（近似算法）
    * http://www.ituring.com.cn/book/1864  8.3节
@@ -53,5 +52,4 @@ object Greedys {
 
     finalStations.toSet
   }
-
 }
