@@ -1,5 +1,15 @@
 package basic
 
+/**
+ * P10. 数值的 n 次方
+ * https://algocasts.io/series/algo-problems-1-50/episodes/Z5mzJmdn
+ * 这个题目说的是，你要实现一个函数，用它来计算浮点数的 n 次方。
+ * <pre>
+ * 比如说，给你 2 和 11，你要计算出 2 的 11 次方的结果：
+ *
+ * f(2, 11) = 2的11次方
+ * </pre>
+ */
 object P010NumNPow {
   // Time: O(n), Space: O(1)
   def pow(x: Double, n: Int): Double = {

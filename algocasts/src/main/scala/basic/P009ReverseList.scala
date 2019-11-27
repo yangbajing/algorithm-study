@@ -1,5 +1,18 @@
 package basic
 
+/**
+ * P9. 反转单链表
+ * 这个题目说的是，给你一个单链表，你需要反转它，然后返回。
+ * <pre>
+ * 比如说给你的单链表是：
+ *
+ * 1 -> 2 -> 3 -> 4 -> 5 -> null
+ *
+ * 你要返回的反转后的链表是：
+ *
+ * 5 -> 4 -> 3 -> 2 -> 1 -> null
+ * </pre>
+ */
 object P009ReverseList {
   case class ListNode(value: Int, var next: Option[ListNode])
 

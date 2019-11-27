@@ -7,7 +7,23 @@ import scala.collection.mutable
 import scala.collection.immutable
 
 /**
+ * P11. 数组的全排列
  * https://algocasts.io/series/algo-problems-1-50/episodes/ldGj7p9j
+ * 这个题目说的是，给你一个整数数组，并且数组中没有重复元素，你要返回这个数组所有可能的排列。
+ * <pre>
+ * 比如说给你的数组是：
+ *
+ * 0, 1, 2
+ *
+ * 你要返回的所有排列是：
+ *
+ * 0, 1, 2
+ * 0, 2, 1
+ * 1, 0, 2
+ * 1, 2, 0
+ * 2, 0, 1
+ * 2, 1, 0
+ * </pre>
  */
 object P011Permute {
   def swap[T](nums: Array[T], i: Int, j: Int): Unit = {
