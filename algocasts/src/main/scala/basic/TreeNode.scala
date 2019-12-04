@@ -1,3 +1,3 @@
 package basic
 
-case class TreeNode[T](value: T, left: TreeNode[T] = null, right: TreeNode[T] = null)
+case class TreeNode[T](value: T, var left: TreeNode[T] = null, var right: TreeNode[T] = null)
