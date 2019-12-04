@@ -9,13 +9,13 @@ import java.util.Objects
  */
 object P022BinaryTreeMaxDepth {
   // Time: O(n), Space: O(n)
-  def maxDepth(tree: TreeNode): Int = {
+  def maxDepth(tree: TreeNode[Int]): Int = {
     if (Objects.isNull(tree)) 0
     else math.max(maxDepth(tree.left), maxDepth(tree.right)) + 1
   }
 
   // Time: O(n), Space: O(N)
-  def maxDepthIterative(tree: TreeNode): Int = {
+  def maxDepthIterative(tree: TreeNode[Int]): Int = {
     println(s"maxDepthIterative($tree)")
     if (Objects.isNull(tree)) 0
     else {
