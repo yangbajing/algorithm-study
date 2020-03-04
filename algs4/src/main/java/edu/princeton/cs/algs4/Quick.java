@@ -65,12 +65,12 @@ public class Quick {
     Comparable v = a[lo];
     while (true) {
 
-      // find item on lo to swap
+      // find item on lo to swap. 找到比v大的元素
       while (less(a[++i], v)) {
         if (i == hi) break;
       }
 
-      // find item on hi to swap
+      // find item on hi to swap. 找到比v小的元素
       while (less(v, a[--j])) {
         if (j == lo) break; // redundant since a[lo] acts as sentinel
       }

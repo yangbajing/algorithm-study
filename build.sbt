@@ -9,7 +9,7 @@ ThisBuild / shellPrompt := (s => Project.extract(s).currentProject.id + " > ")
 ThisBuild / scalafmtOnCompile := true
 
 lazy val root = Project(id = "algorithm-study-root", base = file("."))
-  .aggregate(algorithm, algocasts, slf4j, studyCommon)
+  .aggregate(algorithm, algocasts, algs4Scala, algs4, studyCommon)
   .settings(headerLicense := None)
 
 lazy val leetcode = _project("leetcode").dependsOn(studyCommon % "compile->compile;test->test")
@@ -18,7 +18,9 @@ lazy val algorithm = _project("algorithm").dependsOn(studyCommon % "compile->com
 
 lazy val algocasts = _project("algocasts").dependsOn(studyCommon % "compile->compile;test->test")
 
-lazy val slf4j = _project("algs4").dependsOn(studyCommon % "compile->compile;test->test")
+lazy val algs4Scala = _project("algs4-scala").dependsOn(studyCommon % "compile->compile;test->test")
+
+lazy val algs4 = _project("algs4").dependsOn(studyCommon % "compile->compile;test->test")
 
 lazy val studyCommon = _project("study-common").settings(
   libraryDependencies ++= Seq(

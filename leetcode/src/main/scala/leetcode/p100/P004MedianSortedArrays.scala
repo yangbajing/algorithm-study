@@ -15,30 +15,28 @@ object P004MedianSortedArrays {
     var iMin = 0 // left i min
     var iMax = m // left i max
     val halfLen = (m + n + 1) / 2 // total half length
-    println(s"A: ${A.mkString(",")}, B: ${B.mkString(",")}, iMin:$iMin, iMax:$iMax, halfLen:$halfLen.")
+
     while (iMin <= iMax) {
       val i = (iMin + iMax) / 2 // left index
       val j = halfLen - i // right
-      println(s"i:$i, j:$j")
+
       if (i < iMax && A(i) < B(j - 1)) {
-        println(s"iMin: $iMin, after: ${i + 1}")
         iMin = i + 1 // i is too small
       } else if (i > iMin && A(i - 1) > B(j)) {
-        println(s"iMax: $iMax, after: ${i - 1}")
         iMax = i - 1 // i is too big
       } else { // i is perfect
         val maxLeft =
           if (i == 0) B(j - 1)
           else if (j == 0) A(i - 1)
           else math.max(A(i - 1), B(j - 1))
-        println(s"maxLeft: $maxLeft")
-        if ((m + n) % 2 == 1) return maxLeft
+        if ((m + n) % 2 == 1) {
+          return maxLeft
+        }
 
         val minRight =
           if (i == m) B(j)
           else if (j == n) A(i)
           else math.min(B(j), A(i))
-        println(s"minRight: $minRight")
         return (maxLeft + minRight) / 2.0
       }
     }

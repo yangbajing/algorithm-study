@@ -21,7 +21,7 @@ object Commons {
           "-feature",
           "-deprecation",
           "-unchecked",
-           "-Xlint:_",
+          "-Xlint:_",
           "-Ywarn-dead-code"
           // "-Xfuture" // breaks => Unit implicits
         ),
