@@ -21,8 +21,8 @@ class MaxPQ[A](pq: ArrayBuffer[A])(implicit ord: Ordering[A]) extends PriorityQu
   def isMaxHeap(): Boolean = checkHeap(less)
 
   /** return keys in descending sorted order */
-  def keys(): scala.collection.Seq[A] = pq sorted (Ordering[A].reverse)
+  def keys(): scala.collection.Seq[A] = pq.sorted(Ordering[A].reverse) // 升序排序
 
   /** return keys as string */
-  override def toString(): String = toString(keys)
+  override def toString(): String = toString(keys())
 }

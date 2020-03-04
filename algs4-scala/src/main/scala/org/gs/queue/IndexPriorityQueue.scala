@@ -6,6 +6,7 @@ import scala.annotation.tailrec
 import scala.reflect.ClassTag
 
 /** Common code for IndexMinPQ, IndexMaxPQ
+ * 有索引的优先队列
  *
  * @constructor called by subclass
  * @tparam A keys are generic, ClassTag retains its type at runtime
@@ -18,8 +19,11 @@ import scala.reflect.ClassTag
 abstract class IndexPriorityQueue[A: ClassTag](nMax: Int)(implicit ord: Ordering[A]) {
   require(nMax >= 0, s"nMax:$nMax can't be negative")
   private var n = 0 // number of elements on pq
+  // 索引关联元素
   private val keys = new Array[A](nMax + 1)
+  // 堆：保存元素在 keys 里的索引
   private val pq = new Array[Int](keys.size)
+  // 元素索引保存堆里的位置
   private val qp = Array.fill[Int](keys.size)(-1) // inverse pq keys values
 
   /** Are there any items in the queue */
@@ -46,21 +50,23 @@ abstract class IndexPriorityQueue[A: ClassTag](nMax: Int)(implicit ord: Ordering
   def size(): Int = n
 
   /** exchange parent and child elements in array */
-  private def exchange(i: Int, j: Int): Unit = {
-    val swap = pq(i)
-    pq.update(i, pq(j))
-    pq.update(j, swap)
-    qp(pq(j)) = j
-    qp(pq(i)) = i
+  private def exchange(c: Int, parent: Int): Unit = {
+    val swap = pq(c)
+    // 交换堆保存的keys的索引
+    pq.update(c, pq(parent))
+    pq.update(parent, swap)
+    // 索引返回堆里的位置
+    qp(pq(parent)) = parent
+    qp(pq(c)) = c
   }
 
   /** move k above its parents while its value is larger */
   private def swim(k: Int, cmp: (Int, Int) => Boolean): Unit = {
     @tailrec
-    def loop(i: Int, j: Int) {
-      if (i > 1 && cmp(j, i)) {
-        exchange(i, j)
-        loop(j, j / (2))
+    def loop(c: Int, parent: Int) {
+      if (c > 1 && cmp(parent, c)) {
+        exchange(c, parent)
+        loop(parent, parent / 2)
       }
     }
     loop(k, k./(2))
@@ -115,10 +121,14 @@ abstract class IndexPriorityQueue[A: ClassTag](nMax: Int)(implicit ord: Ordering
   protected def delTop(cmp: (Int, Int) => Boolean): Int = {
     require(n > 0, s"n:$n priority queue underflow")
     val top = pq(1)
+    // 交换最大值到堆尾
     exchange(1, n)
     n -= 1
+    // 头部元素下沉到堆的合适位置
     sink(1, cmp)
+    // 清除索引指向的堆位置值
     qp(top) = -1
+    // 清除堆尾指向的元素索引值
     pq(n + 1) = -1
     top
   }

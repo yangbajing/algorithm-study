@@ -20,12 +20,12 @@ class IndexMaxPQ[A: ClassTag](nMax: Int)(implicit ord: Ordering[A]) extends Inde
   def insert(i: Int, key: A): Unit = insert(i, key, less)
 
   /** returns index associated with max key */
-  def maxIndex(): Int = index
+  def maxIndex(): Int = index()
 
   /** returns max key */
-  def maxKey(): A = topKey
+  def maxKey(): A = topKey()
 
-  /** returns max key and removes it from queue */
+  /** returns max key index and removes it from queue */
   def delMax(): Int = delTop(less)
 
   /** Change key at index to new value, because it can be > or < current, it both swims and sinks

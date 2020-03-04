@@ -33,5 +33,7 @@ class QuickXSuite extends FlatSpec {
     val sorted = sorter.sort(strings)
     assert(sorted(0) === "are")
     assert(sorted(strings.length - 1) === "the")
+
+    assert(sorted === strings.sorted)
   }
 }

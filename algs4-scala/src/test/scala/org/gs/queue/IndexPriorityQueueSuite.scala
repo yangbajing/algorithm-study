@@ -20,7 +20,7 @@ trait IndexQueueBuilder {
 }
 
 /** @author Gary Struthers */
-class IndexMaxPriorityQueueSuite extends FlatSpec {
+class IndexPriorityQueueSuite extends FlatSpec {
   behavior of "a IndexMinPQ"
 
   it should "push 1 item and pop it" in {

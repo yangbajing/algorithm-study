@@ -14,7 +14,7 @@ trait QueueBuilder {
 }
 
 /** @author Gary Struthers */
-class MaxPriorityQueueSuite extends FlatSpec {
+class PriorityQueueSuite extends FlatSpec {
   behavior of "a MaxPQ"
   it should "return correct item and resize q" in {
     val pq = new MaxPQ(new ArrayBuffer[Char](0))

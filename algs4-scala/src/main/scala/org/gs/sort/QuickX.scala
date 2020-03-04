@@ -85,7 +85,7 @@ class QuickX[A: ClassTag](implicit ord: A => Ordered[A]) {
       xs.indexWhere(stopInc, from())
     }
 
-    /** Scan from right of array until finding element greater than partition
+    /** Scan from right of array until finding element lesser than partition
      *
      * stop decrementing when x <= lo
      *
@@ -101,29 +101,35 @@ class QuickX[A: ClassTag](implicit ord: A => Ordered[A]) {
 
     @tailrec /** scan both partition, put i, j in order, loop */
     def loop(i: Int, j: Int, xs: Array[A]): Int = {
-      val rl = scanRL(j, xs)
+      val rLessLoIdx = scanRL(j, xs)
       scanLR(i, xs) match {
-        case lr if (lr == rl) => rl
-        case lr if (lr > rl) => {
-          exchange(lo, rl, xs)
-          rl
-        }
-        case lr => {
-          exchange(lr, rl, xs)
-          loop(lr, rl, xs)
-        }
+        case lGreatLoIdx if lGreatLoIdx == rLessLoIdx =>
+          // 两边都有序，索引值刚好
+          rLessLoIdx
+        case lGreatLoIdx if lGreatLoIdx > rLessLoIdx =>
+          // 右边都大于 lo, 交换 lo 与 rLessLoIdx
+          // 5 4 2 3 9 7 8 6
+          // lo    r l
+          // 3 4 2 5 9 7 8 6
+          //       lo
+          exchange(lo, rLessLoIdx, xs)
+          rLessLoIdx
+        case lGreatLoIdx =>
+          // 从左边开始第一个大于切分元素，从右边开始第一个小于切分元素，交换两者
+          exchange(lGreatLoIdx, rLessLoIdx, xs)
+          loop(lGreatLoIdx, rLessLoIdx - 1 /* rLessLoIdx */, xs)
       }
     }
     loop(lo + 1, hi, xs)
   }
 
   private def sort(low: Int, high: Int, xs: Array[A]): Unit = if (low < high) {
-    if ((low + 10) > high) insertionSort(xs)
-    else {
-      val j = partition(low, high: Int, xs)
-      sort(low, j - 1, xs)
-      sort(j + 1, high, xs)
-    }
+//    if ((low + 10) > high) insertionSort(xs)
+//    else {
+    val j = partition(low, high, xs)
+    sort(low, j - 1, xs)
+    sort(j + 1, high, xs)
+//    }
   }
 
   /** Quicksort recursively partition and sort partions
