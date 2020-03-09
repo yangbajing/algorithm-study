@@ -208,8 +208,8 @@ public class BST<Key extends Comparable<Key>, Value> {
       if (x.left == null) return x.right;
       Node t = x;
       x = min(t.right);
-      x.right = deleteMin(t.right);
-      x.left = t.left;
+      x.right = deleteMin(t.right); // 待删除节点的已删除最小值的右子树
+      x.left = t.left; // 待删除节点的左子树
     }
     x.size = size(x.left) + size(x.right) + 1;
     return x;

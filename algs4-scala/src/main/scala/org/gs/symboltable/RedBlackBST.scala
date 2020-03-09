@@ -27,9 +27,9 @@ sealed class Node[A, B](var key: A, var value: B, var count: Int = 1, var red: B
 class RedBlackBST[A, B](implicit ord: Ordering[A]) {
   private var root = null.asInstanceOf[Node[A, B]]
 
-  private def isRed(x: Node[A, B]): Boolean = if ((x == null) || (x.red == false)) false else true
+  private def isRed(x: Node[A, B]): Boolean = x != null && x.red
 
-  /** Make h.right the new root of subtree
+  /** Make h.right the new root of subtree and return it
    *
    * if h.right is red rotate left so h becomes the left child and h.right becomes the parent
    */
@@ -45,7 +45,7 @@ class RedBlackBST[A, B](implicit ord: Ordering[A]) {
     x
   }
 
-  /** Make h.left the new root of subtree
+  /** Make h.left the new root of subtree and return it
    *
    * if h.left is red rotate right so h becomes the right child and h.left becomes the parent
    */
@@ -54,7 +54,7 @@ class RedBlackBST[A, B](implicit ord: Ordering[A]) {
     val x = h.left
     h.left = x.right
     x.right = h
-    x.red = x.right.red
+    x.red = x.right.red // equals h.red
     x.right.red = true
     x.count = h.count
     h.count = 1 + size(h.left) + size(h.right)
@@ -82,9 +82,9 @@ class RedBlackBST[A, B](implicit ord: Ordering[A]) {
       if (x == null) new Node(key, value)
       else {
         ord.compare(key, x.key) match {
-          case 0            => x.value = value
-          case n if (n < 0) => x.left = loop(x.left)
-          case _            => x.right = loop(x.right)
+          case 0          => x.value = value
+          case n if n < 0 => x.left = loop(x.left)
+          case _          => x.right = loop(x.right)
         }
         x.count += 1
         if (isRed(x.right) && !isRed(x.left)) rotateLeft(x)
@@ -109,9 +109,9 @@ class RedBlackBST[A, B](implicit ord: Ordering[A]) {
       if (x == null) None
       else {
         ord.compare(key, x.key) match {
-          case 0            => Some(x.value)
-          case n if (n < 0) => loop(x.left)
-          case _            => loop(x.right)
+          case 0          => Some(x.value)
+          case n if n < 0 => loop(x.left)
+          case _          => loop(x.right)
         }
       }
     loop(root)
@@ -125,13 +125,13 @@ class RedBlackBST[A, B](implicit ord: Ordering[A]) {
 
     def loop(x: Node[A, B], key: A): Node[A, B] = {
       val h = ord.compare(key, x.key) match {
-        case n if (n < 0) => {
+        case n if n < 0 => // go left
           val j = if (!isRed(x.left) && !isRed(x.left.left)) moveRedLeft(x) else x
 
           j.left = loop(j.left, key)
           j
-        }
-        case _ => {
+
+        case _ =>
           val j = if (isRed(x.left)) rotateRight(x) else x
 
           ord.compare(key, j.key) match {
@@ -150,7 +150,6 @@ class RedBlackBST[A, B](implicit ord: Ordering[A]) {
               k
             }
           }
-        }
       }
       balance(h)
     }
@@ -189,7 +188,7 @@ class RedBlackBST[A, B](implicit ord: Ordering[A]) {
   }
 
   private def deleteMin(h: Node[A, B]): Node[A, B] = {
-    if (h.left == null) null
+    if (h.left == null) null // delete current node
     else {
       val j = if (!isRed(h.left) && !isRed(h.left.left)) moveRedLeft(h) else h
       j.left = deleteMin(j.left)
@@ -199,6 +198,7 @@ class RedBlackBST[A, B](implicit ord: Ordering[A]) {
 
   /** delete minimum key */
   def deleteMin(): Unit = {
+    // 确保节点为 RED
     if (!isRed(root.left) && !isRed(root.right)) root.red = true
 
     root = deleteMin(root)
@@ -236,11 +236,11 @@ class RedBlackBST[A, B](implicit ord: Ordering[A]) {
   /** is key present */
   def contains(key: A): Boolean = get(key) match {
     case None    => false
-    case Some(x) => if (x == null) false else true
+    case Some(x) => x != null
   }
 
   /** are any keys in tree */
-  def isEmpty(): Boolean = if (root == null) true else false
+  def isEmpty(): Boolean = root == null
 
   @tailrec
   private def min(x: Node[A, B]): Node[A, B] = {
