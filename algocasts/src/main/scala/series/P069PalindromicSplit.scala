@@ -1,6 +1,5 @@
 package series
 
-import basic.P012Palindromic.expand
 import util.StringUtils
 
 import scala.collection.mutable.ListBuffer
@@ -21,6 +20,7 @@ import scala.collection.mutable.ListBuffer
  * 相关视频：12. 回文子串个数
  */
 object P069PalindromicSplit {
+  // Time: O(2^n), Space: O(n^2)
   def partition(s: String): ListBuffer[Seq[String]] = {
     val result = ListBuffer[Seq[String]]()
     if (StringUtils.isBlank(s)) return result
@@ -61,6 +61,7 @@ object P069PalindromicSplit {
     }
   }
 
+  // Time: O(n^2), Space: O(1)
   def expand(s: String): Seq[String] = {
     var result = Vector[String]()
     if (StringUtils.isEmpty(s)) return result
