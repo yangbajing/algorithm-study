@@ -21,7 +21,7 @@ import util.StringUtils
  * </pre>
  */
 object P012Palindromic {
-  // Time: O(n%2), Space: O(n%2)
+  // Time: O(n^2), Space: O(n^2)
   def countPalindromicSubstringsDP(s: String): Int = {
     if (StringUtils.isEmpty(s)) return 0
 
@@ -29,22 +29,16 @@ object P012Palindromic {
     val d = Array.ofDim[Boolean](n, n)
     var count = 0
 
-    var i = n - 1
-    while (i >= 0) {
-      var j = i
-      while (j < n) {
-        d(i)(j) =
-          if (i == j) true
-          else if (i + 1 == j) s.charAt(i) == s.charAt(j)
-          else s.charAt(i) == s.charAt(j) && d(i + 1)(j - 1)
-
-        if (d(i)(j)) {
-          count += 1
-        }
-
-        j += 1
-      }
-      i -= 1
+    for {
+      i <- n - 1 to 0 by -1 // From the last end to the left.
+      j <- i until n // From the i to the s.length.
+    } {
+      d(i)(j) =
+        if (i == j) true // Point to the same character.
+        else if (i + 1 == j) s.charAt(i) == s.charAt(j) // substring[i, j] length is 3, so s(i) == s(j) is palindromic.
+        else s.charAt(i) == s.charAt(j) && d(i + 1)(j - 1) // s(i) == s(j) and substring[(]i+1, j-1] is palindromic.
+      println(s"d($i)($j) == ${d(i)(j)}")
+      if (d(i)(j)) count += 1
     }
 
     count
@@ -68,25 +62,11 @@ object P012Palindromic {
     if (StringUtils.isEmpty(s)) return 0
 
     var count = 0
-    var i = 0
-    while (i < s.length) {
+    for (i <- 0 until s.length) {
       count += expand(s, i, i)
       count += expand(s, i, i + 1)
-      i += 1
     }
 
     count
-  }
-
-  def main(args: Array[String]): Unit = {
-    println(countPalindromicSubstringsDP("abc"))
-    println(countPalindromicSubstringsDP("abad"))
-    println(countPalindromicSubstringsDP("abc"))
-    println(countPalindromicSubstringsDP("abccba"))
-    println(Vector.fill(80)('-').mkString)
-    println(countPalindromicSubstringsExpand("abc"))
-    println(countPalindromicSubstringsExpand("abad"))
-    println(countPalindromicSubstringsExpand("abc"))
-    println(countPalindromicSubstringsExpand("abccba"))
   }
 }

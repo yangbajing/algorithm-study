@@ -3,9 +3,9 @@ package series
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
-class P062BTHasPathSumTest extends AnyWordSpec with Matchers {
-  import P062BTHasPathSum._
-  private val tree = new TreeNode(1, new TreeNode(2), new TreeNode(4, new TreeNode(8), new TreeNode(16)))
+class P062BSTHasPathSumTest extends AnyWordSpec with Matchers {
+  import P062BSTHasPathSum._
+  private val tree = TreeNode(1, TreeNode(2), TreeNode(4, TreeNode(8), TreeNode(16)))
 
   "Recursive" should {
     "Has true" in { hasPathSumRecursive(tree, 13) shouldBe true }

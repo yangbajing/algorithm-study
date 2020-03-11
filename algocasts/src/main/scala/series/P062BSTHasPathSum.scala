@@ -17,21 +17,19 @@ import scala.collection.mutable
  * </pre>
  * 给你的整数是 13。在这棵二叉树中存在一条从根到叶子节点的路径 1->4->8，路径上的数字加起来等于 13，于是要返回 true。
  */
-object P062BTHasPathSum {
-  final class TreeNode(val value: Int, var left: TreeNode = null, var right: TreeNode = null)
-
+object P062BSTHasPathSum {
   // Time: O(n), Space: O(n)
-  def hasPathSumRecursive(root: TreeNode, sum: Int): Boolean = {
+  def hasPathSumRecursive(root: TreeNode[Int], sum: Int): Boolean = {
     if (null == root) false
     else if (root.left == null && root.right == null) root.value == sum
     else hasPathSumRecursive(root.left, sum - root.value) || hasPathSumRecursive(root.right, sum - root.value)
   }
 
   // Time: O(n), Space: O(n)
-  def hasPathSumIterative(root: TreeNode, sum: Int): Boolean = {
+  def hasPathSumIterative(root: TreeNode[Int], sum: Int): Boolean = {
     if (null == root) return false
 
-    val stack = mutable.Stack[TreeNode](root)
+    val stack = mutable.Stack[TreeNode[Int]](root)
     val sumStack = mutable.Stack[Int](sum)
 
     while (stack.nonEmpty) {

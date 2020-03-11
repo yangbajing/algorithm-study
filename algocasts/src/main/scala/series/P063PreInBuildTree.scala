@@ -20,18 +20,18 @@ package series
  * </pre>
  */
 object P063PreInBuildTree {
-  case class TreeNode(value: Int, var left: TreeNode = null, var right: TreeNode = null)
-
   // Time: O(n), Space: O(n)
-  def buildTree(pre: IndexedSeq[Int], in: IndexedSeq[Int]): TreeNode = {
-    val inPos = in.zipWithIndex.map { case (n, i) => n -> i }.toMap
+  def buildTree[T](pre: IndexedSeq[T], in: IndexedSeq[T]): TreeNode[T] = {
+    val inPos = in.zipWithIndex.toMap
 
-    def _buildTree(preStart: Int, preEnd: Int, inStart: Int): TreeNode = {
+    def _buildTree(preStart: Int, preEnd: Int, inStart: Int): TreeNode[T] = {
+      println(s"preStart: $preStart, preEnd: $preEnd, inStart: $inStart")
       if (preStart > preEnd) return null
 
       val root = TreeNode(pre(preStart))
       val rootIdx = inPos(root.value)
       val leftLen = rootIdx - inStart
+      println(s"root: ${root.value}, rootIdx: $rootIdx, leftLen: $leftLen")
       root.left = _buildTree(preStart + 1, preStart + leftLen, inStart)
       root.right = _buildTree(preStart + leftLen + 1, preEnd, rootIdx + 1)
       root
