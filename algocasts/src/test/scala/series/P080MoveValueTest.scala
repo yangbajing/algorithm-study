@@ -16,12 +16,12 @@ class P080MoveValueTest extends AnyWordSpec with Matchers {
     """moveValueSwap(mutable.IndexedSeq("Y", "A", "B", "J", "A", "A", "X"), "A")""" in {
       val arr = mutable.IndexedSeq("Y", "A", "B", "J", "A", "A", "X")
       moveValueSwap(arr, "A")
-      arr shouldBe Seq("Y", "B", "J", "X", "A", "A", "A")
+      arr shouldBe Vector("Y", "B", "J", "X", "A", "A", "A")
     }
     "moveValueSwap(Array(3, 4, 2, 1, 4, 7, -5), 4)" in {
       val arr = Array(3, 4, 2, 1, 4, 7, -5)
       moveValueSwap(arr, 4)
-      arr shouldBe Array(3, 2, 1, 7, -5, 4, 4)
+      arr shouldBe List(3, 2, 1, 7, -5, 4, 4)
     }
   }
 }
