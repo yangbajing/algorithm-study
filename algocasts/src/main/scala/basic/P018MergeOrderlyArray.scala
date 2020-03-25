@@ -1,5 +1,7 @@
 package basic
 
+import series.ListNode
+
 import scala.collection.mutable
 import scala.reflect.ClassTag
 
@@ -55,5 +57,28 @@ object P018MergeOrderlyArray {
     }
 
     arr
+  }
+
+  def mergeList[T](x: ListNode[T], y: ListNode[T])(implicit ev1: Ordering[T]): ListNode[T] = {
+    import ev1._
+    val dummy = ListNode(null.asInstanceOf[T])
+    var node = dummy
+    var a = x
+    var b = y
+    while (a != null && b != null) {
+      if (a.value < b.value) {
+        node.next = a
+        a = a.next
+      } else {
+        node.next = b
+        b = b.next
+      }
+      node = node.next
+    }
+
+    if (a != null) node.next = a
+    if (b != null) node.next = b
+
+    dummy.next
   }
 }
