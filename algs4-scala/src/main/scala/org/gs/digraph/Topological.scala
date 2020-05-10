@@ -22,13 +22,13 @@ class Topological[A <: DigraphMarker](g: A) {
         case d: Digraph             => new DepthFirstOrder(d)
         case e: EdgeWeightedDigraph => new EdgeWeightedDepthFirstOrder(e)
       }
-      Some(dfs.reversePost)
+      Some(dfs.reversePost())
     } else None
 
   private lazy val _order = createOrder(!finder.hasCycle)
 
   /** returns if it has a topological order */
-  def hasOrder(): Boolean = _order != None
+  def hasOrder(): Boolean = _order.isDefined
 
   /** returns list of vertex numbers in topological order */
   def order(): Option[List[Int]] = _order

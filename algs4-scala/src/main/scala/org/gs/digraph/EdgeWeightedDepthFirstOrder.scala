@@ -1,7 +1,5 @@
 package org.gs.digraph
 
-import scala.collection.mutable.Queue
-
 /** Depth first order for an EdgeWeightedDigraph
  *
  * @constructor creates a new EdgeWeightedDepthFirstOrder with an EdgeWeightedDigraph, vertex count
@@ -15,7 +13,7 @@ class EdgeWeightedDepthFirstOrder(g: EdgeWeightedDigraph) extends BaseDepthFirst
     preCounter += 1
     _pre(v) = preCounter
     preOrder.enqueue(v)
-    g.adj(v) foreach (e => if (!marked(e.to)) dfs(e.to))
+    g.adj(v) foreach (e => if (!marked(e.to())) dfs(e.to()))
     postOrder.enqueue(v)
     postCounter += 1
     _post(v) = postCounter

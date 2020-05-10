@@ -19,7 +19,7 @@ class AcyclicSP(g: EdgeWeightedDigraph, s: Int) {
   private val edgeTo = Array.fill[Option[DirectedEdge]](g.numV)(None)
   private val topological = new Topological(g)
 
-  topological.order match {
+  topological.order() match {
     case None => throw new IllegalArgumentException(s"EdgeWeightedDigraph:$g is not acyclic")
     case Some(x) =>
       for {
@@ -29,8 +29,8 @@ class AcyclicSP(g: EdgeWeightedDigraph, s: Int) {
   }
 
   private def relax(e: DirectedEdge): Unit = {
-    val v = e.from
-    val w = e.to
+    val v = e.from()
+    val w = e.to()
     if (_distTo(w) > _distTo(v) + e.weight) {
       _distTo(w) = _distTo(v) + e.weight
       edgeTo(w) = Some(e)
@@ -49,10 +49,9 @@ class AcyclicSP(g: EdgeWeightedDigraph, s: Int) {
     else {
       val path = new ListBuffer[DirectedEdge]()
 
-      @tailrec
-      def loop(e: DirectedEdge) {
+      @tailrec def loop(e: DirectedEdge) {
         e +=: path
-        edgeTo(e.from) match {
+        edgeTo(e.from()) match {
           case None    =>
           case Some(x) => loop(x)
         }
