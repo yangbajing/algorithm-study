@@ -2,7 +2,7 @@ import Commons._
 
 ThisBuild / version := "1.0.0"
 
-ThisBuild / scalaVersion := "2.13.2"
+ThisBuild / scalaVersion := "2.13.3"
 
 ThisBuild / shellPrompt := (s => Project.extract(s).currentProject.id + " > ")
 
