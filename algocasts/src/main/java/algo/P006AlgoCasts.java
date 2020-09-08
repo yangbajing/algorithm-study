@@ -1,7 +1,5 @@
 package algo;
 
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,7 +11,9 @@ public class P006AlgoCasts {
   // Time: O(n), Space: O(1)
   public static int singleNumberWithXOR(int[] nums) {
     int result = 0;
-    for (int num : nums) result ^= num;
+    for (int num : nums) {
+      result ^= num;
+    }
     return result;
   }
 
