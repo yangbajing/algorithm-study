@@ -581,3 +581,5 @@ hs_err_pid*
 !/sbt-dist/bin/sbt.bat
 !/sbt-dist/bin/sbt-launch-lib.bash
 /algs4/algs4-data/
+.bsp/
+
