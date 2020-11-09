@@ -7,10 +7,9 @@ import scala.util.Random
  * @author Yang Jing <a href="mailto:yang.xunjing@qq.com">yangbajing</a>
  * @date 2020-10-23 11:33:19
  */
-class P528RandomPickWithWeight(w: Array[Int]) {
-  for (i <- 1 until w.length) {
-    w(i) += w(i - 1)
-  }
+class P528RandomPickWithWeight(_w: Array[Int]) {
+  private val w = _w.clone()
+  for (i <- 1 until w.length) w(i) += w(i - 1)
 
   def pickIndex(): Int = {
     val r = Random.nextInt(w.last) + 1
@@ -31,18 +30,15 @@ class P528RandomPickWithWeight(w: Array[Int]) {
     }
   }
 
-  def pickIndexForIterative(): Int = {
-    val r = Random.nextInt(w.last) + 1
+  def pickIndexIterable(): Int = {
+    val r = Random.nextInt(w.last)
     var low = 0
     var high = w.length - 1
-    while (low < high) {
+    while (low != high) {
       val mid = low + (high - low) / 2
-      val v = w(mid)
-      if (v > r) high = mid
-      else if (v < r) low = mid + 1
-      else return mid
+      if (r >= w(mid)) low = mid + 1
+      else high = mid
     }
-
     low
   }
 }
